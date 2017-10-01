@@ -5,3 +5,5 @@
 *.jpg
 *.jpeg
 *.tar.gz
+*.py
+regexp*
