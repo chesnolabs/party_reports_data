@@ -6,4 +6,6 @@
 *.jpeg
 *.tar.gz
 *.py
+*.db
 regexp*
+exclude
