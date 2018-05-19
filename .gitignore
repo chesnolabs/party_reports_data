@@ -6,5 +6,7 @@
 *.jpeg
 *.tar.gz
 *.db
+*.pyc
 regexp*
 exclude
+__gitcache__

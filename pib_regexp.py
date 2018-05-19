@@ -11,7 +11,7 @@ PERSON_NAME_RE = re.compile(
     (\s+)?
     (?P<middle_name>[Є-ЯҐ][\w\-\'ʼ\s]*)?
     ''',
-    re.VERBOSE)
+    re.VERBOSE) #розпарсює строку ПІБ на прізвище, ім'я і по-батькові
 
 BASIC_REPLACEMENTS = {
     "\u00A0": " ",  # " " U+00A0 NO-BREAK SPACE
@@ -35,7 +35,7 @@ BASIC_REPLACEMENTS = {
     "\u0301": "",  # COMBINING ACUTE ACCENT
 }
 
-REPLACEMENTS_UK = BASIC_REPLACEMENTS.copy()
+REPLACEMENTS_UK = BASIC_REPLACEMENTS.copy() #заміна латиниці на кирилицю
 REPLACEMENTS_UK.update({
     "I": "І",
     "O": "О",
@@ -56,14 +56,25 @@ REPLACEMENTS_UK = dict(
     (re.escape(k), v) for k, v in REPLACEMENTS_UK.items())
 REPLACEMENTS_UK_PATTERN = re.compile("|".join(REPLACEMENTS_UK.keys()))
 
-def match_name_parts(full_name):
+FOP_RE = re.compile(r'^ФОП\s+')
+MULTISPACED_RE = re.compile(' +')
+
+def match_name_parts(full_name): #функція з парсингу ПІБ на складові
     sre = PERSON_NAME_RE.match(full_name)
     if not sre:
         print("Некоректне імʼя {}".format(full_name))
     return sre.groupdict()
 
-def standard_name_cleaner(name, return_dict=False):
-        name = UkFieldsMixin.clean_uk_field(name)\
+def clean_field(value):
+    if value:
+        value = REPLACEMENTS_UK_PATTERN.sub(
+            lambda m:
+                REPLACEMENTS_UK[re.escape(m.group(0))], value)
+        return value.strip()
+    return value
+
+def standard_name_cleaner(name, return_dict=False): #автозаміна помилок при розпізнаванні
+        name = clean_field(name)\
             .replace(',', '')\
             .replace('.', ' ')\
             .replace('"', 'ʼ')\
@@ -82,11 +93,3 @@ def standard_name_cleaner(name, return_dict=False):
             name_parts['given_name'],
             name_parts['middle_name'])))\
             .strip()
-
-def clean_field(value):
-    if value:
-        value = REPLACEMENTS_UK_PATTERN.sub(
-            lambda m:
-                REPLACEMENTS_UK[re.escape(m.group(0))], value)
-        return value.strip()
-    return value
