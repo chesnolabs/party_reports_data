@@ -1,0 +1,10 @@
+INFO:Перевірка ../2017/ОБ/5_donations.csv
+INFO:Запис ../2017/ОБ/5_donations.csv
+INFO:Таблиці з новими [авто]замінами:
+INFO:Імена
+INFO:name,replacement
+INFO:по батькові
+INFO:name,replacement
+INFO:Перевірка ../2016/Парламентські/5_donations.csv
+INFO:Перевірка ../2017/УКРОП/5_donations.csv
+INFO:Перевірка ../2016/Парламентські/5_donations.csv
