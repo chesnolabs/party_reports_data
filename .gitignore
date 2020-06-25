@@ -11,3 +11,4 @@ regexp*
 exclude
 __gitcache__
 шаблони/
+joint_*
